@@ -1,6 +1,8 @@
 from django.db import models
 import datetime
-form django.contrib.auth.models import User
+from django.contrib.auth.models import User
+from tagging.fields import TagField
+from markdown2 import markdown
     
 class Category(models.Model):
     
@@ -21,11 +23,22 @@ class Category(models.Model):
         return self.title
 
 class Entry(models.Model):
+    
+    
+    class Meta:
+        
+        verbose_name_plural = "Entries"
+        ordering = ['-pub_date']
+    
     LIVE_STATUS = 1
     DRAFT_STATUS = 2
     HIDDEN_STATUS = 3
-
+    
+    # link it to corresp author
+    
     author = models.ForeignKey(User)
+    
+    # create entry itself
     
     title = models.CharField(max_length=250)
     excerpt = models.TextField(blank=True)
@@ -42,3 +55,22 @@ class Entry(models.Model):
         (HIDDEN_STATUS, 'Hidden'),
     )
     status = models.IntegerField(choices=STATUS_CHOICES, default=LIVE_STATUS)
+    
+    categories = models.ManyToManyField(Category)
+    
+    tags = TagField()
+    
+    excerpt_html = models.TextField(editable=False, blank=True)
+    body_html = models.TextField(editable=False, blank=True)
+    
+    def save(self, force_insert=False, force_update=False):
+        self.body_html = markdown(self.body)
+        if self.exerpt:
+            self.exerpt_html = markdown(self.exerpt)
+        super(Entry, self).save(force_insert, force_update)
+    
+    def unicode(self):
+        return self.title
+        
+    def get_absilute_url(self):
+        return "/weblog/%s/%s/" % (self.pub_date.strftime("%Y/%b/%d").lower(), self.slug)
