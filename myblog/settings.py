@@ -121,6 +121,8 @@ INSTALLED_APPS = (
     'search',
     'blogpost',
     'coltrane',
+    'tagging',
+    'markdown2',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
