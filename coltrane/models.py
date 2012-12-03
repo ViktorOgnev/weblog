@@ -1,8 +1,10 @@
+from django.conf import settings
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
 from tagging.fields import TagField
 from markdown2 import markdown
+
     
 class Category(models.Model):
     
@@ -22,16 +24,32 @@ class Category(models.Model):
     
     def get_absolute_url(self):
         return "/categories/%s/" % self.slug
-
     
+    def live_entry_set(self):
+        from coltrane.models import Entry
+        return self.entry_set.filter(status=Entry.LIVE_STATUS)
+        
+
+class LiveEntryManager(models.Manager):
+
+    def get_query_set(self):
+        return super(LiveEntryManager, self).get_query_set().filter(
+                                                status=self.model.LIVE_STATUS)    
 
 class Entry(models.Model):
+    
+    # Managers
+    
+    live = LiveEntryManager() # custom manager enabling status based queries
+    objects = models.Manager() # default manager(has to be reset manually)
+        
+    # Status constants
     
     LIVE_STATUS = 1
     DRAFT_STATUS = 2
     HIDDEN_STATUS = 3
     
-    # way to display a post
+    # Options for how to display a post
     
     STATUS_CHOICES = (
         (LIVE_STATUS, 'Live'),
@@ -89,5 +107,99 @@ class Entry(models.Model):
                 'month': self.pub_date.strftime("%b").lower(),
                 'day' : self.pub_date.strftime("%d"),
                 'slug': self.slug })
+                
+                
+class Link(models.Model):
+    
+    # Metadata
+    
+    enable_comments = models.BooleanField(default=True)
+    post_elsewhere = models.BooleanField('Post to Delicious', default=True)
+    posted_by = models.ForeignKey(User)
+    pub_date = models.DateTimeField(default=datetime.datetime.now)
+    slug = models.SlugField(unique_for_date='pub_date',
+                          help_text='Must be unique for the publication date.')
+    title = models.CharField(max_length=250,
+                             help_text='Maximum 250 characters')
+    
+    # The actual link content
+    
+    description = models.TextField(blank=True)
+    description_html = models.TextField(blank=True)
+    url = models.URLField(unique=True)
+    via_name = models.CharField('Via', max_length=250, blank=True, 
+                                help_text='''The name of the person whose site
+                                you spotted the link on. Optional.
+                                ''')
+    via_url = models.URLField('Via URL', blank=True, help_text='''The URL of the
+                                site where you spotted the link. Optional.''')
+    
+    tags = TagField()
+    
+    
+    class Meta:
+        ordering = ['-pub_date']
+        
+    
+    def __unicode__(self):
+        return self.title
+        
+    def save():
+
+        if not self.id and self.post_elsewhere:
+            import pydelicious
+            from django.utils.encoding import smart_str
+            pydelicious.add(settings.DELICIOUS_USER, settings.DELICIOUS_PASSWORD,
+                            smart_str(self.url), smart_str(self.title),
+                            smart_str(self.tags))
+                            
+        if self.description:
+            self.description_html = markdown(self.description)
+        
+        super(Lik, self).save()
+        
+    @models.permalink
+    def get_absolute_url(self):
+        return ('coltrane_link_detail', (), { 
+                                'year': self.pub_date.strftime('%Y'),
+                                'month': self.pub_date.strftime('%b').lower(),
+                                'day': self.pub_date.strftime('%d'),
+                                'slug': self.slug })
+    
+    
+
+        
+        
+        
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
