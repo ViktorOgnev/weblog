@@ -1,8 +1,11 @@
 from django.conf.urls import patterns, include, url
+from coltrane.models import Entry
 
-# Uncomment the next two lines to enable the admin:
+
 from django.contrib import admin
 admin.autodiscover()
+
+
 
 urlpatterns = patterns('',
     # Examples:
@@ -14,14 +17,17 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/?', include(admin.site.urls)),
-    url(r'^weblog/?$', 'coltrane.views.entries_index'),
-    url(r'^weblog/(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{2})/(?P<slug>[-\w]+)/?$',
-                                                    'coltrane.views.entry_detail'),
-        
+    url(r'^weblog/?', include('coltrane.urls')),
     url(r'^search/?$', 'search.views.search'),
+    )                                         
     
-)
+    
+    
+    
+    
 
 urlpatterns += patterns('django.contrib.flatpages.views',
     (r'^(?P<url>.*)$', 'flatpage'),
-)
+    )
+    
+    
