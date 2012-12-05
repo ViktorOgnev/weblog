@@ -125,7 +125,7 @@ class Link(models.Model):
     # The actual link content
     
     description = models.TextField(blank=True)
-    description_html = models.TextField(blank=True)
+    description_html = models.TextField(editable=False, blank=True)
     url = models.URLField(unique=True)
     via_name = models.CharField('Via', max_length=250, blank=True, 
                                 help_text='''The name of the person whose site
@@ -144,7 +144,7 @@ class Link(models.Model):
     def __unicode__(self):
         return self.title
         
-    def save():
+    def save(self, *args, **kwargs):
 
         if not self.id and self.post_elsewhere:
             import pydelicious
@@ -156,7 +156,7 @@ class Link(models.Model):
         if self.description:
             self.description_html = markdown(self.description)
         
-        super(Lik, self).save()
+        super(Link, self).save()
         
     @models.permalink
     def get_absolute_url(self):

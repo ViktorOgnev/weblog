@@ -104,6 +104,7 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 
 TEMPLATE_DIRS = (
     '/var/www/django_projects/templates',
+    '/var/www/django_projects/templates/coltrane',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -155,3 +156,5 @@ LOGGING = {
         },
     }
 }
+DELICIOUS_PASSWORD = 'overlord123'
+DELICIOUS_USER = 'viktor_ognev_3'
