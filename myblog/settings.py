@@ -119,6 +119,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.flatpages',
+    'django.contrib.comments',
+    'django.contrib.markup',
     'search',
     'blogpost',
     'coltrane',
@@ -158,3 +160,4 @@ LOGGING = {
 }
 DELICIOUS_PASSWORD = 'overlord123'
 DELICIOUS_USER = 'viktor_ognev_3'
+AKISMET_API_KEY = 'cf1afb676538'

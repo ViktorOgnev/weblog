@@ -5,7 +5,31 @@ from django.contrib.auth.models import User
 from tagging.fields import TagField
 from markdown2 import markdown
 
-    
+#---------- Comment related imports
+
+from akismet import Akismet
+from django.conf import settings
+from django.contrib.comments.models import Comment
+from django.contrib.comments.signals import comment_will_be_posted
+from django.contrib.sites.models import Site
+from django.utils.encoding import smart_str
+
+
+# Fetch a Site  object so it would “know” where you were running the development
+# server. Whenever you’re  running with this database and settings file, you
+# can get that Site object.
+
+current_site = Site.objects.get_current()
+akismet_api = Akismet(key=settings.AKISMET_API_KEY,
+                       blog_url="http://%s/" %Site.objects.get_current().domain)
+
+
+
+
+
+
+#----------  Content, Lincs etc
+
 class Category(models.Model):
     
     title = models.CharField(max_length=250, help_text='Maximum 250 characters.')
@@ -38,10 +62,13 @@ class LiveEntryManager(models.Manager):
 
 class Entry(models.Model):
     
-    # Managers
+    #----- Managers
     
-    live = LiveEntryManager() # custom manager enabling status based queries
-    objects = models.Manager() # default manager(has to be reset manually)
+    # custom manager enabling status based queries - becomes default, because 
+    # the one daclared first will be  default
+    
+    live = LiveEntryManager() 
+    objects = models.Manager() # standard manager(has to be reset manually)
         
     # Status constants
     
@@ -172,7 +199,35 @@ class Link(models.Model):
         
         
 
+#---------- Comment moderation
 
+def moderate_comment(sender, comment, request, **kwargs):
+
+    """
+    comment moderation
+    """
+    # Date based.
+    
+    if not comment.id:
+        entry = comment.content_object
+        delta = datetime.datetime.now() - entry.pub_date
+    if delta.days > 30:
+        comment.is_public = False
+        
+    # Smart akismet moderation
+    
+    if akismet_api.verify_key():
+        akismet_data = { 'comment_type': 'comment', 
+                         'referrer': request.META['HTTP_REFERRER'],
+                         'user_ip': comment.ip_address,
+                         'user-agent': request.META['HTTP_USER_AGENT'],
+        if akismet_api.comment_check(smart_str(comment.comment), akismet_data,
+                                     build_data=True):
+            comment.is_public = False
+
+# register it
+
+comment_will_be_posted.connect(moderate_comment, sender=Comment)
 
 
     

@@ -1,0 +1,46 @@
+html{
+    background-color: grey;
+    
+}
+body {
+    
+    background-color: white;
+    z-index: 2;position: relative;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    border-radius:20px;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
+    color: #333;
+    margin-top:30px;
+}
+
+
+#content{
+              
+              width:67%;
+              float:left;
+              margin-top:30px;
+              background-color: white;
+              border-radius:40px;
+              padding:1%;
+              border-right: solid #510000;
+        
+              }
+
+#sidebar{ 
+        width:25%;
+        float:right;
+        border-left: solid #510000;
+        border-radius:40px;
+        margin-left:2px;
+        padding:2%;
+        margin-top:30px;
+        background-color: white;
+        }
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
