@@ -1,46 +1,77 @@
 html{
     background-color: grey;
+    background-image:url('gradient4.png');
     
 }
 body {
-    
+    /* background-image:url('gradient5.png'); */
     background-color: white;
     z-index: 2;position: relative;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    border-radius:20px;
-    width: 1000px;
+    font-size: 80%;
+    border-radius:30px;
+    width: 70%;
     margin: 0 auto;
     padding: 10px;
     color: #333;
     margin-top:30px;
+    border-bottom: solid #525C65;
 }
 
-
+#header {
+    
+    width:99.5%;
+    background-color: white;
+    border-radius:30px;
+    padding:0.1%;
+    
+    
+}
+h1{
+    text-align: center;
+    
+    font-size: 250%;
+    font-weight: bold;
+}
+h2 {
+    font-size: 150%;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 #content{
-              
-              width:67%;
-              float:left;
-              margin-top:30px;
-              background-color: white;
-              border-radius:40px;
-              padding:1%;
-              border-right: solid #510000;
-        
-              }
+        /* background-image:url('gradient5.png'); */
+        width:67%;
+        float:left;
+        margin-top:30px;
+        background-color: white;
+        border-radius:30px;
+        padding:1%;
+        border-top: solid #525C65;
+        border-right: solid #525C65;
 
-#sidebar{ 
+}
+
+#sidebar{
+        /* background-image:url('gradient5.png'); */
         width:25%;
         float:right;
-        border-left: solid #510000;
-        border-radius:40px;
+        border-left: solid #525C65;
+        border-top: solid #525C65;
+        border-radius:30px;
         margin-left:2px;
         padding:2%;
         margin-top:30px;
         background-color: white;
-        }
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
 }
+/* #footnote{
+        position:relative;      
+        width:67%;
+        
+        margin-top:30px;
+        background-color: white;
+        border-radius:2%;
+        padding:1%;
+        border-right: solid #510000;
+
+}
+ */

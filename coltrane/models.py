@@ -1,31 +1,37 @@
-from django.conf import settings
-from django.db import models
 import datetime
-from django.contrib.auth.models import User
-from tagging.fields import TagField
+from django.db import models
 from markdown2 import markdown
+from django.conf import settings
+from tagging.fields import TagField
+from tagging.models import Tag
+from django.contrib.auth.models import User
 
-#---------- Comment related imports
+#---------- Comment-related imports
 
 from akismet import Akismet
 from django.conf import settings
+from django.core.mail import mail_managers
+from django.utils.encoding import smart_str
+from django.contrib.sites.models import Site
 from django.contrib.comments.models import Comment
 from django.contrib.comments.signals import comment_will_be_posted
-from django.contrib.sites.models import Site
-from django.utils.encoding import smart_str
+from django.contrib.comments.moderation import CommentModerator, moderator
 
-
-# Fetch a Site  object so it would “know” where you were running the development
-# server. Whenever you’re  running with this database and settings file, you
+# Fetch a Site  object so it would know where you were running the development
+# server. Whenever you're  running with this database and settings file, you
 # can get that Site object.
 
-current_site = Site.objects.get_current()
-akismet_api = Akismet(key=settings.AKISMET_API_KEY,
-                       blog_url="http://%s/" %Site.objects.get_current().domain)
+# current_site = Site.objects.get_current()
+# akismet_api = Akismet(key=settings.AKISMET_API_KEY,
+                       # blog_url="http://%s/" %Site.objects.get_current().domain)
 
 
 
+Tag.get_absolute_url = models.permalink(
+              lambda self: ('coltrane_all_items_by_tag', (), {'tag': self.name.lower()}))
 
+    
+    
 
 
 #----------  Content, Lincs etc
@@ -46,8 +52,9 @@ class Category(models.Model):
     def __unicode__(self):
         return self.title
     
+    @models.permalink
     def get_absolute_url(self):
-        return "/categories/%s/" % self.slug
+        return ('coltrane_category_detail', (), {'slug': self.slug })
     
     def live_entry_set(self):
         from coltrane.models import Entry
@@ -201,37 +208,67 @@ class Link(models.Model):
 
 #---------- Comment moderation
 
-def moderate_comment(sender, comment, request, **kwargs):
+# def moderate_comment(sender, comment, request, **kwargs):
 
-    """
-    comment moderation
-    """
-    # Date based.
+    # """
+    # comment moderation
+    # """
+    # # Date based.
     
-    if not comment.id:
-        entry = comment.content_object
-        delta = datetime.datetime.now() - entry.pub_date
-    if delta.days > 30:
-        comment.is_public = False
+    # if not comment.id:
+        # entry = comment.content_object
+        # delta = datetime.datetime.now() - entry.pub_date
+    # if delta.days > 30:
+        # comment.is_public = False
         
-    # Smart akismet moderation
+    # # Smart akismet moderation
     
-    if akismet_api.verify_key():
-        akismet_data = { 'comment_type': 'comment', 
-                         'referrer': request.META['HTTP_REFERRER'],
-                         'user_ip': comment.ip_address,
-                         'user-agent': request.META['HTTP_USER_AGENT'],
-        if akismet_api.comment_check(smart_str(comment.comment), akismet_data,
-                                     build_data=True):
-            comment.is_public = False
+    # if akismet_api.verify_key():
+        # akismet_data = { 'comment_type': 'comment', 
+                         # 'referrer': request.META['HTTP_REFERRER'],
+                         # 'user_ip': comment.ip_address,
+                         # 'user-agent': request.META['HTTP_USER_AGENT'],}
+        # if akismet_api.comment_check(smart_str(comment.comment), akismet_data,
+                                     # build_data=True):
+            # comment.is_public = False
+    # # Notify people via email        
+    # email_body = "%s posted a new comment on the entry '%s'."
+    # mail_managers("New comment posted", email_body % (comment.name,
+                                                      # comment.content_object))
 
-# register it
+# # register it
 
-comment_will_be_posted.connect(moderate_comment, sender=Comment)
+# comment_will_be_posted.connect(moderate_comment, sender=Comment)
 
 
     
+class EntryModerator(CommentModerator):
+
+    auto_moderate_field = 'pub_date'
+    moderate_after = 30
+    email_notification = True
     
+    
+    def moderate(self, comment, content_object, request):
+        already_moderated = super(EntryModerator, self).moderate(comment,
+                                                                 content_object, request)
+        if already_moderated:
+            return True
+        akismet_api = Akismet(key=settings.AKISMET_API_KEY,
+                       blog_url="http:/%s/" % Site.objects.get_current().domain)
+        if akismet_api.verify_key():
+            akismet_data = { 'comment_type': 'comment',
+                             'referrer': request.META['HTTP_REFERER'],
+                             'user_ip': comment.ip_address,
+                             'user-agent': request.META['HTTP_USER_AGENT'] }
+            return akismet_api.comment_check(smart_str(comment.comment),
+                                                       akismet_data,
+                                                       build_data=True)
+        return False
+        
+moderator.register(Entry, EntryModerator)
+
+
     
     
     

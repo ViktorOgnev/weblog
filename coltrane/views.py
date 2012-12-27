@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render_to_response
-from coltrane.models import Entry, Category
+from coltrane.models import Entry, Category, Link
 from django.views.generic.list import ListView
 
 def entries_index(request): 
@@ -25,5 +25,15 @@ def category_list(request):
                               
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    return ListView.as_view()(request, queryset=category.live_entry_set.all(),
-                                    extra_context={ 'category': category })
+    object_list = category.live_entry_set()
+    return render_to_response('coltrane/category_detail.html',
+                              { 'category': category,
+                                'object_list':object_list})
+                                
+def all_items_by_tag(request, tag):
+    tagged_entries = [e for e in Entry.live.all() if tag in e.tags]
+    tagged_links = [l for l in Link.objects.all() if tag in l.tags]
+    return render_to_response('coltrane/tagging/items_by_tag.html',
+                                {'tagged_entries': tagged_entries,
+                                  'tagged_links': tagged_links,
+                                  'tagname': tag})

@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, include, url
 from coltrane.models import Entry
-
-
+from coltrane.feeds import LatestEntriesFeed, CategoryFeed
 from django.contrib import admin
+
 admin.autodiscover()
 
 
@@ -17,9 +17,15 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^comments/', include('django.contrib.comments.urls')),
+    url(r'^signup/', 'signup.views.signup', name='signup'),
     url(r'^admin/?', include(admin.site.urls)),
     url(r'^weblog', include('coltrane.urls')),
+    url(r'^weblog/', include('cab.urls.cab_urls')),
     
+    url(r'^feeds/(?P<slug>entries)/?$', LatestEntriesFeed()),
+    url(r'^feeds/(?P<slug>\w+)/?$', CategoryFeed()),
+    
+                                                       
     url(r'^search/?$', 'search.views.search'),
     )                                         
     

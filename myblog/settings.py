@@ -1,18 +1,25 @@
 # Django settings for myblog project.
+import os.path
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Viktor Ognev', 'ognev.victor@gmail.com '),
 )
 
 MANAGERS = ADMINS
 
+# The abs path fot the root project directory # os.pardir == ..
+P_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+path = lambda name: os.path.abspath(os.path.join(P_DIR, name))
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/var/www/django_projects/myblog/myblog.db',# Or path to database file if using sqlite3.
+        'NAME': path('myblog.db'),# Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -61,7 +68,8 @@ STATIC_ROOT = ''
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-
+# Add slash if it is not in the url
+APPEND_SLASH = True
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -103,8 +111,9 @@ ROOT_URLCONF = 'myblog.urls'
 WSGI_APPLICATION = 'myblog.wsgi.application'
 
 TEMPLATE_DIRS = (
-    '/var/www/django_projects/templates',
-    '/var/www/django_projects/templates/coltrane',
+    path('templates'),
+    path('templates/coltrane'),
+    
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -126,6 +135,9 @@ INSTALLED_APPS = (
     'coltrane',
     'tagging',
     'markdown2',
+    'cab',
+    'signup',
+    
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -161,3 +173,10 @@ LOGGING = {
 DELICIOUS_PASSWORD = 'overlord123'
 DELICIOUS_USER = 'viktor_ognev_3'
 AKISMET_API_KEY = 'cf1afb676538'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 0
+DEFAULT_FROM_EMAIL = 'your email address'
+EMAIL_HOST_USER = 'ognev.victor@gmail.com'
+EMAIL_HOST_PASSWORD = '!overlord123!'
+EMAIL_USE_TLS = True

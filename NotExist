@@ -1,0 +1,233 @@
+Help on module django.core.exceptions in django.core:
+
+NNAAMMEE
+    django.core.exceptions - Global Django exception and warning classes.
+
+FFIILLEE
+    /usr/lib/python2.7/dist-packages/django/core/exceptions.py
+
+CCLLAASSSSEESS
+    exceptions.Exception(exceptions.BaseException)
+        FieldError
+        ImproperlyConfigured
+        MiddlewareNotUsed
+        MultipleObjectsReturned
+        ObjectDoesNotExist
+        PermissionDenied
+        SuspiciousOperation
+        ValidationError
+        ViewDoesNotExist
+    exceptions.RuntimeWarning(exceptions.Warning)
+        DjangoRuntimeWarning
+    
+    class DDjjaannggooRRuunnttiimmeeWWaarrnniinngg(exceptions.RuntimeWarning)
+     |  Method resolution order:
+     |      DjangoRuntimeWarning
+     |      exceptions.RuntimeWarning
+     |      exceptions.Warning
+     |      exceptions.Exception
+     |      exceptions.BaseException
+     |      __builtin__.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  ____wweeaakkrreeff____
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.RuntimeWarning:
+     |  
+     |  ____iinniitt____(...)
+     |      x.__init__(...) initializes x; see help(type(x)) for signature
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from exceptions.RuntimeWarning:
+     |  
+     |  ____nneeww____ = <built-in method __new__ of type object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.BaseException:
+     |  
+     |  ____ddeellaattttrr____(...)
+     |      x.__delattr__('name') <==> del x.name
+     |  
+     |  ____ggeettaattttrriibbuuttee____(...)
+     |      x.__getattribute__('name') <==> x.name
+     |  
+     |  ____ggeettiitteemm____(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  ____ggeettsslliiccee____(...)
+     |      x.__getslice__(i, j) <==> x[i:j]
+     |      
+     |      Use of negative indices is not supported.
+     |  
+     |  ____rreedduuccee____(...)
+     |  
+     |  ____rreepprr____(...)
+     |      x.__repr__() <==> repr(x)
+     |  
+     |  ____sseettaattttrr____(...)
+     |      x.__setattr__('name', value) <==> x.name = value
+     |  
+     |  ____sseettssttaattee____(...)
+     |  
+     |  ____ssttrr____(...)
+     |      x.__str__() <==> str(x)
+     |  
+     |  ____uunniiccooddee____(...)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from exceptions.BaseException:
+     |  
+     |  ____ddiicctt____
+     |  
+     |  aarrggss
+     |  
+     |  mmeessssaaggee
+    
+    class FFiieellddEErrrroorr(exceptions.Exception)
+     |  Some kind of problem with a model field.
+     |  
+     |  Method resolution order:
+     |      FieldError
+     |      exceptions.Exception
+     |      exceptions.BaseException
+     |      __builtin__.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  ____wweeaakkrreeff____
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.Exception:
+     |  
+     |  ____iinniitt____(...)
+     |      x.__init__(...) initializes x; see help(type(x)) for signature
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from exceptions.Exception:
+     |  
+     |  ____nneeww____ = <built-in method __new__ of type object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.BaseException:
+     |  
+     |  ____ddeellaattttrr____(...)
+     |      x.__delattr__('name') <==> del x.name
+     |  
+     |  ____ggeettaattttrriibbuuttee____(...)
+     |      x.__getattribute__('name') <==> x.name
+     |  
+     |  ____ggeettiitteemm____(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  ____ggeettsslliiccee____(...)
+     |      x.__getslice__(i, j) <==> x[i:j]
+     |      
+     |      Use of negative indices is not supported.
+     |  
+     |  ____rreedduuccee____(...)
+     |  
+     |  ____rreepprr____(...)
+     |      x.__repr__() <==> repr(x)
+     |  
+     |  ____sseettaattttrr____(...)
+     |      x.__setattr__('name', value) <==> x.name = value
+     |  
+     |  ____sseettssttaattee____(...)
+     |  
+     |  ____ssttrr____(...)
+     |      x.__str__() <==> str(x)
+     |  
+     |  ____uunniiccooddee____(...)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from exceptions.BaseException:
+     |  
+     |  ____ddiicctt____
+     |  
+     |  aarrggss
+     |  
+     |  mmeessssaaggee
+    
+    class IImmpprrooppeerrllyyCCoonnffiigguurreedd(exceptions.Exception)
+     |  Django is somehow improperly configured
+     |  
+     |  Method resolution order:
+     |      ImproperlyConfigured
+     |      exceptions.Exception
+     |      exceptions.BaseException
+     |      __builtin__.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  ____wweeaakkrreeff____
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.Exception:
+     |  
+     |  ____iinniitt____(...)
+     |      x.__init__(...) initializes x; see help(type(x)) for signature
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from exceptions.Exception:
+     |  
+     |  ____nneeww____ = <built-in method __new__ of type object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.BaseException:
+     |  
+     |  ____ddeellaattttrr____(...)
+     |      x.__delattr__('name') <==> del x.name
+     |  
+     |  ____ggeettaattttrriibbuuttee____(...)
+     |      x.__getattribute__('name') <==> x.name
+     |  
+     |  ____ggeettiitteemm____(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  ____ggeettsslliiccee____(...)
+     |      x.__getslice__(i, j) <==> x[i:j]
+     |      
+     |      Use of negative indices is not supported.
+     |  
+     |  ____rreedduuccee____(...)
+     |  
+     |  ____rreepprr____(...)
+     |      x.__repr__() <==> repr(x)
+     |  
+     |  ____sseettaattttrr____(...)
+     |      x.__setattr__('name', value) <==> x.name = value
+     |  
+     |  ____sseettssttaattee____(...)
+     |  
+     |  ____ssttrr____(...)
+     |      x.__str__() <==> str(x)
+     |  
+     |  ____uunniiccooddee____(...)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from exceptions.BaseException:
+     |  
+     |  ____ddiicctt____
+     |  
+     |  aarrggss
+     |  
+     |  mmeessssaaggee
+    
+    class MMiiddddlleewwaarreeNNoottUUsseedd(exceptions.Exception)
+     |  This middleware is not used in this server configuration
+     |  
+     |  Method resolution order:
+     |      MiddlewareNotUsed
+     |      exceptions.Exception
+     |      exceptions.BaseException
+     |      __builtin__.object
+     |  
+     |  Data 
