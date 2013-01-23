@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-class SingupForm(forms.Form):
+class SignupForm(forms.Form):
     username = forms.CharField(max_length=30)
     email = forms.EmailField()
     # render value makes it not show the password and clear the input in case of

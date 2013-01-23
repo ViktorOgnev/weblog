@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Sliding menu</title>
+        <link type="text/css" rel="stylesheet" href="static/sliding_panel.css"/>
+        <script type="text/javascript" src="static/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="static/sliding_panels.js"></script>
+        
+        <!-- [if lt IE 9] >
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+            </script>
+            <link rel="stylesheet" type="text/css" href="static/sliding_panels_ie.css: />
+        <![endif]-->
+    </head>
+    <body>
+        <h1 class="fpo_text"> Heading</h1>
+        
+        <!-- sliding panel here -->
+        
+        <div class="sp">
+            <div class="tabs"><span class="articles">Articles</span><span class="video">Video</span><span class="photo">Photo</span><span class="sound">Sound</span>
+            </div>
+            {% load coltrane_tags %}
+            <div class="panel_container">
+                
+                <div class="panels">
+                
+                    <div class="panel articles">
+                        <div class="panel_content">
+                            <h2>First Panel</h2>
+                            <p>
+                                <ul>
+                                    <!-- This fetches entry archive menu from the db -->
+                                    <!-- A lame hardcoding, but it's faster than querying DB for a year every time -->
+                                    {% get_years as years %}
+                                    {% for year in years %}  
+                                        <li>
+                                            <a href="{% url 'coltrane_entry_archive_year' year %}"> 
+                                                {{ year }}
+                                            </a>
+                                            {% get_active_dates of coltrane.entry as nonempty_months that_have year=year %}
+                                            <ul>
+                                                
+                                                {% for month in nonempty_months %}
+                                                   <li>
+                                                        <a href="{% url 'coltrane_entry_archive_month' year month %}">
+                                                            {{ month }} {{ year }}
+                                                        </a>
+                                                       {% get_active_dates of coltrane.entry as nonempty_days that_have year=year month=month %}
+                                                        <ul>
+                                                            {% for day in nonempty_days %}
+                                                                <li >
+                                                                    <a href="{% url 'coltrane_entry_archive_day' year month day %}">
+                                                                        {{ day }} {{ month }} {{ year }}
+                                                                    </a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>    
+                                                    </li>
+                                                    
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </p>    
+                        </div>
+                    </div>
+                    
+                    <div class="panel video">
+                        <div class="panel_content">
+                            <h2>Second Panel</h2>
+                            <p>
+                                Pellentesque nisl leo, iaculis a pharetra id, rutrum ut dui. Integer vel lobortis nibh. 
+                                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+                                Vestibulum vulputate vulputate tellus, a convallis eros fringilla ut. Quisque id urna id 
+                                erat auctor cursus sed eu orci. Sed dictum pulvinar luctus. Cum sociis natoque penatibus et 
+                                magnis dis parturient montes, nascetur ridiculus mus. Curabitur eros mi, semper a malesuada 
+                                a, dapibus porttitor dolor. Vivamus placerat dignissim dolor id iaculis. Vivamus in placerat 
+                                nulla. In hac habitasse platea dictumst. Suspendisse vel est id metus porta aliquam. Ut 
+                                tincidunt luctus est, non sagittis dui congue sit amet. Curabitur laoreet, sapien at aliquet 
+                                ultrices, turpis magna euismod libero, eu ultrices tortor justo non enim. Sed nec tellus 
+                                mauris, ultricies facilisis magna. Cras eget pulvinar arcu.
+                            </p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="panel photo">
+                        <div class="panel_content">
+                            <h2>Third Panel</h2>
+                            <p>
+                                                                Sed sit amet lacus non magna semper aliquet. Nulla hendrerit tellus eu sapien ornare 
+                                elementum. Phasellus et tempus risus. Donec porttitor congue ligula, vitae adipiscing orci 
+                                volutpat eget. Sed posuere aliquet arcu, id mollis nisl dignissim nec. Donec convallis nulla 
+                                a nisi interdum varius. Curabitur tincidunt, ipsum quis pulvinar sodales, mi mauris 
+                                condimentum ipsum, nec ultrices enim risus eu libero. Suspendisse eget eros non dolor 
+                                commodo faucibus.
+                            </p>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="panel sound">
+                        <div class="panel_content">
+                            <h2>Fourth Panel</h2>
+                            <p>
+                                Sed sit amet lacus non magna semper aliquet. Nulla hendrerit tellus eu sapien ornare 
+                                elementum. Phasellus et tempus risus. Donec porttitor congue ligula, vitae adipiscing orci 
+                                volutpat eget. Sed posuere aliquet arcu, id mollis nisl dignissim nec. Donec convallis nulla 
+                                a nisi interdum varius. Curabitur tincidunt, ipsum quis pulvinar sodales, mi mauris 
+                                condimentum ipsum, nec ultrices enim risus eu libero. Suspendisse eget eros non dolor 
+                                commodo faucibus.
+                            </p>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+        <p> 
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the 
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and 
+            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into 
+            electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of 
+            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like 
+            Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+        <p>
+                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin 
+            literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney 
+            College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, 
+            and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem 
+            Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and 
+            Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the 
+            Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 
+            1.10.32.
+        </p>
+        <p> 
+                        It is a long established fact that a reader will be distracted by the readable content of a page when looking 
+            at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, 
+            as opposed to using 'Content here, content here', making it look like readable English. Many desktop 
+            publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 
+            'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the 
+            years, sometimes by accident, sometimes on purpose (injected humour and the like).
+        </p>
+        <p> 
+                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in 
+            some form, by injected humour, or randomised words which don't look even slightly believable. If you are 
+            going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the 
+            middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, 
+            making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined 
+            with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated 
+            Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+
+        </p>
+    </body>
+</html>

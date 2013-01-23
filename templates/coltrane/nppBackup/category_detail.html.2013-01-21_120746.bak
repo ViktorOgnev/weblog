@@ -1,0 +1,17 @@
+{% extends "coltrane/base_categories.html" %}
+
+{% block title %}{{ block.super }} | {{ category.title }} {% endblock %}
+
+{% block content %}
+    <h2>"{{ category.title }}" Entries</h2>
+    {% for object in object_list %}
+      <p><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></p>
+    {% endfor %}
+{% endblock %}
+
+{% block whatis %}
+<p>
+    This is a list of  {{ object_list.count }} entries contained
+    in "{{ category.title }}" category.
+</p>
+{% endblock %}

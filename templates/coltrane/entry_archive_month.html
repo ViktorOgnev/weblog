@@ -1,4 +1,4 @@
-{% extends "base_entries.html" %}
+{% extends request.is_ajax|yesno:"coltrane/base_content_ajax.html,coltrane/base_entries.html" %}
 {% block title %}
     {{ block.super }} | Entries in {{ month|date:"F, Y" }}
 {% endblock %}

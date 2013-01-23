@@ -1,0 +1,189 @@
+html{
+    background-color: grey;
+    background-image:url('/static/images/gradient4.png');
+        
+}
+
+body {
+     
+    background-color: white;
+    z-index: 2;
+    
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 80%;
+    border-radius:30px;
+    width: 70%;
+    margin: 0 auto;
+    padding: 0.5%;
+    color: #333;
+    
+    border: solid #525C65;
+}
+
+#header {
+    background-image:url('/static/images/gradient2.png');
+    width:99.5%;
+    background-color: white;
+    border-radius:30px;
+    padding:0.1%;
+
+}
+
+a {
+    color:#668B8B;
+    text-decoration:none;
+}
+
+a:hover {
+    color: #CC7722; 
+    
+}
+
+.signup_or_login {
+    color: #DBDBDB; 
+    position:absolute;
+    right:2%;
+   
+}
+.signup_or_login a {
+   color: #DBDBDB; 
+   text-decoration:none;
+}
+
+.signup_or_login a:hover {
+   color: #CC7722; 
+}
+
+h1{
+    text-align: right;
+    font-size: 250%;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 120%;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+h5{
+    text-align: right;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.search {
+    float:right;
+}
+
+#content{
+        
+	width:73%;
+    min-height:400px;
+	float:left;
+	margin-top:30px;
+	background-color: white;
+	border-radius:30px;
+	padding:1%;
+	border: solid #525C65;
+        
+
+}
+
+#sidebar{
+    overflow: hidden;    
+	width:19%;
+	float:right;
+	border: solid #525C65;
+	border-radius:30px;
+	margin-left:2px;
+	padding:2%;
+	margin-top:30px;
+	background-color: white;
+	margin-bottom: 30px;
+}
+
+/* navigation sidebar menu */
+
+.accordion li ul { 
+	display: block;
+
+}
+
+#nav {
+	
+	width:115%; /* 114 */ 
+	
+	position: relative;
+	right:7.5%; /* 7 */
+}
+
+#nav .accordion2 {
+	width:180%;
+	height: 100%;
+	position: relative;
+	right:7%;
+}
+
+
+
+#nav li a:hover {
+    color: #CC7722; 
+    border: 2px solid #525C65;
+    font-size: 110%;
+    border-radius: 4px; 
+}
+
+/* Other styling */
+.rss_button {
+    cursor:pointer;
+    display:block;
+    float: right;
+    width: 40px;
+    height: 40px;
+    background: url('/static/images/rsscopy3.png') no-repeat;
+    -webkit-border-top-right-radius: 10%;
+    -moz-border-radius-topright: 10%;
+    border-top-right-radius: 40%;
+}
+
+.rss_button:hover {
+    
+    background: url('/static/images/rsscopy2.png') no-repeat;
+}
+
+#footnote {
+	width: 68%;
+	float: left;
+	/* position: absolute;
+	bottom: 0px; */
+	background-color: white;
+	
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 100%;
+	border-radius:30px;
+	
+	margin-top: 1%;
+	padding: 0.5%;
+	color: #333;
+	
+	border: solid #525C65;
+
+}
+#footnote #whatis {
+	margin-left: 1%;
+}
+
+#entry_delimiter {
+	margin-top: 30px;
+	border-bottom: 3px solid #525C65;
+	margin-bottom: 30px;
+}
+
+a.open { color: #f00;}
+
+#whatis {
+    border-top: 3px solid #525C65;
+    margin-top: 10%;
+}
+

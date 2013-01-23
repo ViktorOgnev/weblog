@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>My weblog {% block title %}{% endblock %}</title>
+        <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+        <link type="text/css" rel="stylesheet" href="/static/css/jquery.ui.accordion.css" />
+        <link type="text/css" rel="stylesheet" href="/static/css/jquery-ui-1.9.2.custom.css" />
+        
+        {% block additional_styling %}{% endblock %}
+		<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+		<script src="/static/js/jquery-1.8.3.js"></script>
+		<script src="/static/js/jquery.cookie.js"></script>
+		<script src="/static/js/ui/jquery.ui.core.js"></script>
+		<script src="/static/js/jquery.ui.widget.js"></script>
+		<script src="/static/js/jquery.ui.accordion.js"></script>
+		<!-- <script src="/static/js/navigationajax.js"></script> -->
+		
+		
+		<script type="text/javascript">
+		
+			$(function(){
+                $(".accordion,.accordion_level2,.accordion_level3").accordion({
+					
+					changestart: function(event, ui){
+                        $("#ajax-content").load($(this).attr("href"));
+                    }
+					active: false,
+					navigation: true,
+					collapsible: true,
+					autoHeight: false,
+					clearStyle: true,
+					icons: { "header": "ui-icon-plus", "headerSelected": "ui-icon-minus" } 
+				});
+				
+                //$("a", ".accordion").click(function(e) {
+                  //  $("#ajax-content").load($(this).attr("href"));      
+    });      
+				
+			});
+	
+		</script>
+    
+    </head>
+    
+    <body class="{% block bodyclass %}{% endblock %}">
+        
+        <div id="header">
+            <div class="signup_or_login">
+                {% if user.is_authenticated %}
+                    {{ user.username }} |
+                    <a href="{% url 'auth_logout' %}?next={% firstof request.path '/' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'auth_login' %}?next={% firstof request.path '/' %}">Login</a> |
+                    <a href="{% url 'auth_signup' %}?next={% firstof request.path '/' %}">Signup</a>
+                {% endif %}
+            </div>
+            <h1 id="branding">Alternative Hub</h1>
+            <h5> A new perspective on the same old things.</h5>
+        </div>
+        <div id="content">
+             <a class="rss_button" href="{% url 'latest_entry_feeds' %}?next={% firstof request.path '/' %}"></a>
+            
+			<div id="ajax-content">
+				{% block content %}
+				{% endblock %}
+			</div>
+           
+        </div>
+        <div id="sidebar">
+            
+            <div class="search">    
+            <form method="get" action="/search/">
+                <p>
+                    <input type="text" name="q" id="id_q" value="{{ query }}" />
+                    <input type="submit" value="Search" />
+                </p>
+            </form>
+            {% if keyword_results or results %}
+                <p> You searched for "{{ query }}".</p>
+                {% if keyword_results %}
+                    <p> Recommended Pages: </p>
+                    <ul>
+                        {% for page in keyword_results %}
+                            <li><a href="{{ page.get_absolute_url }}">{{ page.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if results %}
+                    <p> Search results: </p>
+                    <ul>
+                        {% for page in results %}
+                            <li><a href="{{ page.get_absolute_url }}">{{ page.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+            {% if query and not keyword_results and not results %}
+                <p> No results found </p>
+            {% else %}
+                 
+            {% endif %}
+            </div>
+            <h2 id="navhdr">Navigation</h2>
+            <ul id="nav" class="accordion">
+                {% load coltrane_tags %}
+                <li id="main-nav-entries">
+                    <a href="{% url 'coltrane_entry_archive_index' %}">Entries</a>
+                    <ul class="accordion_level2">
+                        <!-- This fetches entry archive menu from the db -->
+                        <!-- A lame hardcoding, but it's faster than querying DB for a year every time -->
+                        {% get_years as years %}
+                        {% for year in years %}  
+                            <li>
+                                <a href="{% url 'coltrane_entry_archive_year' year %}"> 
+                                    {{ year }}
+                                </a>
+                                {% get_active_dates of coltrane.entry as nonempty_months that_have year=year %}
+                                <ul class="accordion_level3">
+                                    
+                                    {% for month in nonempty_months %}
+                                       <li>
+                                            <a href="{% url 'coltrane_entry_archive_month' year month %}">
+                                                {{ month }} {{ year }}
+                                            </a>
+                                           {% get_active_dates of coltrane.entry as nonempty_days that_have year=year month=month %}
+                                            <ul>
+                                                {% for day in nonempty_days %}
+                                                    <li >
+                                                        <a href="{% url 'coltrane_entry_archive_day' year month day %}">
+                                                            {{ day }} {{ month }} {{ year }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>    
+                                        </li>
+                                        
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li id="main-nav-links">
+                    <a href="{% url 'coltrane_link_archive_index' %}">Links</a>
+                </li>
+                <li id="main-nav-categories">
+                    <a href="{% url 'coltrane_category_list' %}">Categories</a>
+                </li>
+                <li id="main-nav-tags">
+                    <a href="{% url 'coltrane_tag_list' %}">Tags</a>
+                </li> 
+                <li id="main-nav-code">
+                    <a href="{% url 'cab_snippet_list' %}">Code</a>
+                    <ul class="accordion_level2">
+                    
+                        <li>
+                            <a href="{% url 'cab_language_list' %}">Languages</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'cab_snippet_list' %}">Snippets</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'cab_top_rated' %}">Top Rated</a>
+                        </li>
+                   
+                    </ul>
+                </li>
+                
+            </ul>
+            
+            
+        
+           
+            
+            <h2>Latest entries in the weblog</h2>
+            <ul>
+                {% get_latest_content coltrane.entry 5 as latest_entries %}
+                {% for entry in latest_entries %}
+                    <li>
+                        <a href="{{ entry.get_absolute_url }}">
+                            {{ entry.title }}
+                        </a>,
+                        posted {{ entry.pub_date|timesince }} ago.
+                    </li>
+                {% endfor %}
+            </ul>
+            <h2>Latest links in the weblog</h2>
+            <ul>
+                {% get_latest_content coltrane.link 5 as latest_links %}
+                {% for link in latest_links %}
+                    <li>
+                        <a href="{{ link.get_absolute_url }}">
+                            {{ link.title }}
+                        </a>,
+                        posted {{ link.pub_date|timesince }} ago.
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="footnote">
+			
+            <div id="whatis">
+				<h2>What is this?</h2>
+				{% block whatis %}
+				{% endblock %}
+			</div>
+		</div>     
+    </body>
+    
+</html>
+  

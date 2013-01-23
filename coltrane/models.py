@@ -99,6 +99,12 @@ class Entry(models.Model):
     body = models.TextField()
     pub_date = models.DateTimeField(default=datetime.datetime.now)
     
+    # Date elements for easier navigation menu date archive lookup
+    
+    year = models.IntegerField(editable=False, blank=True, null=True)
+    month = models.CharField(max_length=4, editable=False, blank=True, null=True)
+    day = models.IntegerField(editable=False, blank=True, null=True)
+    
     # Fields to store generated html.
     
     excerpt_html = models.TextField(editable=False, blank=True)
@@ -132,6 +138,13 @@ class Entry(models.Model):
         self.body_html = markdown(self.body)
         if self.excerpt:
             self.excerpt_html = markdown(self.excerpt)
+            
+        # It's better to save this formatting once and save RAM by using more disc
+        
+        self.year = int(self.pub_date.strftime("%Y"))
+        self.month = self.pub_date.strftime("%b").lower()
+        self.day =  int(self.pub_date.strftime("%d"))
+        
         super(Entry, self).save(force_insert, force_update)
         
     @models.permalink

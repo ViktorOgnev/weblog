@@ -1,4 +1,4 @@
-{% extends "coltrane/base_entries.html" %}
+{% extends request.is_ajax|yesno:"base_content_ajax.html,base_entries.html" %}
 
 {% block title %}{{ block.super }} | Latest entries{% endblock %}
 {% block content %}

@@ -1,5 +1,4 @@
-{% extends "coltrane/base.html" %}
-
+{% extends request.is_ajax|yesno:"coltrane/base_content_ajax.html,coltrane/base_entries.html" %}
 {% block title %} | Snippets{% endblock %}
 {% block additional_styling %}
     <link type="text/css" rel="stylesheet" href="/static/css/pygments.css" />

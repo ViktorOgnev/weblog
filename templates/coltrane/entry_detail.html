@@ -1,9 +1,9 @@
-{% extends "base_entries.html" %}
+{% extends request.is_ajax|yesno:"base_content_ajax.html,base_entries.html" %}
 {% block title %}{{ block.super }} | {{ object.title }}{% endblock %}
 {% block content %}
     <h2>{{ object.title }}</h2>
     {{ object.body_html|safe }}
-    
+    <div id="entry_delimiter"></div>
     <h2>Please share your thoughts about this information</h2>
     {% load comments %}
     {% load markup %}

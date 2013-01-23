@@ -17,6 +17,7 @@ def most_bookmarked(request):
                             template_name='cab/most_bookmarked.html',
                             paginate_by=20)
 def top_rated(request):   
-    return ListView.as_view(queryset=Snippet.objects.top_rated(), 
-                            template_name='cab/top_rated.html',
+    return ListView.as_view(queryset=Snippet.objects.top_rated(),
+                            template_name='cab/top_rated.html')(request, 
+                            
                             paginate_by=20)

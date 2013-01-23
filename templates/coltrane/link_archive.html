@@ -1,5 +1,4 @@
-{% extends "coltrane/base_links.html" %}
-
+{% extends request.is_ajax|yesno:"coltrane/base_content_ajax.html,coltrane/base_entries.html" %}
 {% block title %}{{ block.super }} | Latest links{% endblock %}
 
 {% block content %}
